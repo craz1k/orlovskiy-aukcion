@@ -1,0 +1,101 @@
+@import '../../local_modules/normalize.css/normalize';
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+a {
+  display: inline-block;
+
+  cursor: pointer;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+}
+
+input {
+  font: inherit;
+
+  letter-spacing: inherit;
+
+  color: inherit;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+input[type='button'] {
+  padding: 0;
+
+  cursor: pointer;
+}
+
+button {
+  font: inherit;
+
+  padding: 0;
+
+  cursor: pointer;
+
+  border: none;
+  outline: none;
+  background: none;
+}
+
+html {
+  font-size: 62.5%;
+
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-txt;
+  font-size: 1.6rem;
+  line-height: 1.5;
+
+  overflow: hidden;
+
+  margin: 0;
+
+  letter-spacing: .02em;
+
+  color: $color-primary-dark;
+}
+
+.container {
+  max-width: 100%;
+  padding: 0 15px;
+}

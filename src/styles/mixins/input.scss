@@ -1,0 +1,38 @@
+@mixin auc-input {
+  font-size: 3rem;
+
+  margin-right: 1.5rem;
+  padding: .1em .2em;
+
+  transition: .1s linear;
+
+  border: 3px solid $color-primary-dark;
+  border-radius: .25em;
+  background-color: $color-input;
+  box-shadow: 3px 3px 0 $color-primary-dark;
+
+
+  &:focus {
+    background-color: $color-primary-light;
+  }
+}
+
+@mixin auc-btn {
+  font-size: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: .2em;
+
+  transition: background-color .1s linear;
+
+  border-radius: .25em;
+  background-color: $color-primary-dark;
+  box-shadow: 0 5px darken($color-primary-dark, 10);
+
+  &:hover {
+    background-color: darken($color-primary-dark, 7);
+  }
+}

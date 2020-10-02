@@ -1,0 +1,19 @@
+doctype html
+html(lang="en")
+    block head
+        head
+            meta(charset="utf-8")
+            title Auction
+            meta(content="width=device-width, initial-scale=1" name="viewport")
+            meta(content="ie=edge" http-equiv="x-ua-compatible")
+            link(href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet")
+            link(rel="stylesheet" href="css/style.min.css")
+    body
+        include ../includes/index/mixins
+        block header
+            include header
+        block content
+        block footer
+            include footer
+        block scripts
+            script(src='js/main.min.js')

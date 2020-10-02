@@ -1,0 +1,9 @@
+mixin icon(icon, name)
+  svg(class= icon): use(xlink:href="img/sprite.svg#" + name)
+
+mixin auc-item(modif)
+  .auc__item(class= modif)
+    input.auc__lot(type="text")
+    input.auc__total-sum(type="text")
+    input.auc__current-sum(type="text")
+    button.auc__add-sum: +icon("auc__icon", "plus")

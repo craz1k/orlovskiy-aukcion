@@ -1,0 +1,113 @@
+.auc {
+  min-height: 100vh;
+  padding: 0 15px;
+  padding-top: 5rem;
+
+  background: url('../img/bg.png'), $color-bg;
+
+  background-blend-mode: multiply;
+}
+
+.auc__inner {
+  display: flex;
+  flex: 1 1;
+
+  padding-top: 4rem;
+}
+
+.auc__left {
+  display: flex;
+  // overflow-y: auto;
+  flex: 1 1;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 60%;
+  max-height: 100%;
+}
+
+.auc__right {
+  flex: 1 1;
+}
+
+.auc__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.auc__item--first {
+  .auc__lot,
+  .auc__total-sum,
+  .auc__current-sum {
+    border: 3px outset $color-input-first;
+    background-color: $color-input-first;
+    box-shadow: 0 0 10px $color-input-first, 3px 3px 0 $color-primary-dark;
+
+    &:focus {
+      background-color: $color-input-first;
+    }
+  }
+}
+
+.auc__item--second {
+  .auc__lot,
+  .auc__total-sum,
+  .auc__current-sum {
+    border: 3px outset $color-input-second;
+    background-color: $color-input-second;
+    box-shadow: 0 0 10px $color-input-second, 3px 3px 0 $color-primary-dark;
+
+    &:focus {
+      background-color: $color-input-second;
+    }
+  }
+}
+
+.auc__lot,
+.auc__total-sum,
+.auc__current-sum {
+  @include auc-input;
+}
+
+.auc__lot {
+  flex: 1 0;
+
+  text-align: right;
+}
+
+.auc__total-sum {
+  max-width: 15%;
+}
+
+.auc__current-sum {
+  max-width: 12%;
+}
+
+.auc__add-sum {
+  @include auc-btn;
+
+  min-width: 5rem;
+  max-width: 5%;
+  min-height: 5rem;
+  padding: .1em;
+
+  border-radius: 100%;
+}
+
+.auc__icon {
+  width: 2rem;
+  height: 2rem;
+
+  fill: $color-primary-light;
+}
+
+.auc__add-lot {
+  @include auc-btn;
+
+  max-width: calc(100% - 6.5rem);
+  padding: .5em .2em;
+}

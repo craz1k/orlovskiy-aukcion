@@ -1,0 +1,13 @@
+extends common/layout
+
+block content
+  main.auc
+    .auc__inner
+      .auc__left
+        .auc__lots-wrapper
+          +auc-item("auc__item--first")
+          +auc-item("auc__item--second")
+          +auc-item
+          +auc-item
+        button.auc__add-lot: +icon("auc__icon", "plus")
+      .auc__right
