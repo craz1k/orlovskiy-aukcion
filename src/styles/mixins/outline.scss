@@ -1,0 +1,5 @@
+@mixin outline {
+  &:focus {
+    box-shadow: 0 0 0 3px #159ce466;
+  }
+}

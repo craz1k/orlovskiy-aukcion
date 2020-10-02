@@ -10,24 +10,20 @@
 
 .auc__inner {
   display: flex;
-  flex: 1 1;
+  flex: 0 1;
 
   padding-top: 4rem;
 }
 
 .auc__left {
   display: flex;
-  // overflow-y: auto;
+  overflow-y: auto;
   flex: 1 1;
   flex-direction: column;
 
   width: 100%;
-  max-width: 60%;
   max-height: 100%;
-}
-
-.auc__right {
-  flex: 1 1;
+  margin-right: 2rem;
 }
 
 .auc__item {
@@ -36,7 +32,7 @@
   justify-content: space-between;
 
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 1em;
 }
 
 .auc__item--first {
@@ -48,6 +44,8 @@
     box-shadow: 0 0 10px $color-input-first, 3px 3px 0 $color-primary-dark;
 
     &:focus {
+      @include outline;
+
       background-color: $color-input-first;
     }
   }
@@ -62,6 +60,8 @@
     box-shadow: 0 0 10px $color-input-second, 3px 3px 0 $color-primary-dark;
 
     &:focus {
+      @include outline;
+
       background-color: $color-input-second;
     }
   }
@@ -90,9 +90,9 @@
 .auc__add-sum {
   @include auc-btn;
 
-  min-width: 5rem;
+  min-width: 4.5rem;
   max-width: 5%;
-  min-height: 5rem;
+  min-height: 4.5rem;
   padding: .1em;
 
   border-radius: 100%;
@@ -108,6 +108,77 @@
 .auc__add-lot {
   @include auc-btn;
 
-  max-width: calc(100% - 6.5rem);
-  padding: .5em .2em;
+  max-width: calc(100% - 6rem);
+  padding: .3em .2em;
+
+  &:active {
+    transform: none;
+
+    background-color: lighten($color-primary-dark, 2);
+  }
+}
+
+.auc__right {
+  display: flex;
+  flex-direction: column;
+}
+
+.auc__timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 2rem;
+}
+
+.auc__start,
+.auc__reset {
+  @include auc-btn;
+
+  font-size: 1.3rem;
+
+  min-width: 6rem;
+  min-height: 6rem;
+
+  text-transform: uppercase;
+
+  border-radius: 100%;
+}
+
+.auc_time {
+  font-size: 5.5rem;
+
+  margin: 0 1rem;
+
+  color: $color-primary-light;
+  text-shadow: 0 5px $color-primary-dark;
+}
+
+.auc__start {
+  background-color: $color-start;
+  box-shadow: 0 5px darken($color-start, 10);
+
+  &:hover {
+    background-color: darken($color-start, 7);
+  }
+}
+
+.auc__reset {
+  background-color: $color-reset;
+  box-shadow: 0 5px darken($color-reset, 10);
+
+  &:hover {
+    background-color: darken($color-reset, 7);
+  }
+}
+
+.auc__timer-controllers {
+  display: flex;
+  justify-content: space-between;
+}
+
+.auc__timer-btn {
+  @include auc-btn;
+
+  width: 22%;
 }

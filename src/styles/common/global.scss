@@ -47,6 +47,8 @@ p {
 }
 
 input {
+  @include outline;
+
   font: inherit;
 
   letter-spacing: inherit;
@@ -64,6 +66,8 @@ input[type='button'] {
 }
 
 button {
+  @include outline;
+
   font: inherit;
 
   padding: 0;

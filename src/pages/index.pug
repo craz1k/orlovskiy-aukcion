@@ -11,3 +11,13 @@ block content
           +auc-item
         button.auc__add-lot: +icon("auc__icon", "plus")
       .auc__right
+        .auc__timer-wrapper
+          .auc__timer
+            button.auc__start Старт
+            p.auc_time 10:00.000
+            button.auc__reset Сброс
+          .auc__timer-controllers
+            button.auc__timer-btn +1
+            button.auc__timer-btn +2
+            button.auc__timer-btn =10
+            button.auc__timer-btn -1
