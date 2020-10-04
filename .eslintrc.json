@@ -10,17 +10,14 @@
         "htmlacademy/es6"
       ],
       "rules": {
-        "indent": [
-          "error",
-          4
-        ],
+
         "semi": [
           "error",
-          "never"
+          "always"
         ],
         "quotes": [
           "error",
-          "backtick"
+          "single"
         ]
       }
     }

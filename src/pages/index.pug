@@ -10,19 +10,20 @@ block content
           +auc-item
           +auc-item
           +auc-item
-          +auc-item
-          +auc-item
-          +auc-item
-          +auc-item
         button.auc__add-lot: +icon("auc__icon", "plus")
       .auc__right
         .auc__timer-wrapper
           .auc__timer
-            button.auc__start Старт
-            p.auc_time 10:00<span>.000</span>
-            button.auc__reset Сброс
+            button.auc__start(start)
+            p.auc__time(timer)
+              span(minutes) 10
+              |:
+              span(seconds) 00
+              //- |.
+              //- span(mseconds) 000
+            button.auc__reset(reset) Сброс
           .auc__timer-controllers
-            button.auc__timer-btn +1
-            button.auc__timer-btn +2
-            button.auc__timer-btn =10
-            button.auc__timer-btn -1
+            button.auc__timer-btn(plus-one-min) +1
+            button.auc__timer-btn(plus-two-min) +2
+            button.auc__timer-btn(ten-min) =10
+            button.auc__timer-btn(minus-one-min) -1
