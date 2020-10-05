@@ -39,6 +39,14 @@ function display(seconds) {
   // MSEC < 100 ? MSEC_DOM.innerHTML = '' + MSEC : MSEC_DOM.innerHTML = MSEC;
 }
 
+const reset = () => {
+  secondsGlobal = 0;
+  clearInterval(countdown);
+  display(0);
+  timer(0);
+  START.classList.remove('auc__start--stop');
+};
+
 START.addEventListener('click', () => {
   if (secondsGlobal > 0 && !START.classList.contains('auc__start--stop')) {
     timer(secondsGlobal);
@@ -49,13 +57,7 @@ START.addEventListener('click', () => {
   }
 });
 
-RESET.addEventListener('click', () => {
-  secondsGlobal = 0;
-  clearInterval(countdown);
-  display(0);
-  timer(0);
-  START.classList.remove('auc__start--stop');
-});
+RESET.addEventListener('click', reset);
 
 PLUS_ONE_MIN.addEventListener('click', () => {
   if (!START.classList.contains('auc__start--stop') || !countdown) {
@@ -93,12 +95,16 @@ TEN_MIN.addEventListener('click', () => {
 
 
 MINUS_ONE_MIN.addEventListener('click', () => {
-  if (!START.classList.contains('auc__start--stop') || !countdown) {
-    secondsGlobal -= 60;
-    display(secondsGlobal);
+  if (secondsGlobal >= 60) {
+    if (!START.classList.contains('auc__start--stop') || !countdown) {
+      secondsGlobal -= 60;
+      display(secondsGlobal);
+    } else {
+      secondsGlobal -= 60;
+      clearInterval(countdown);
+      timer(secondsGlobal);
+    }
   } else {
-    secondsGlobal -= 60;
-    clearInterval(countdown);
-    timer(secondsGlobal);
+    reset();
   }
 });
