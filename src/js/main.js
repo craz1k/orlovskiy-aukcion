@@ -12,8 +12,11 @@ const PLUS_ONE_MIN = document.querySelector('[plus-one-min]');
 const PLUS_TWO_MIN = document.querySelector('[plus-two-min]');
 const TEN_MIN = document.querySelector('[ten-min]');
 const MINUS_ONE_MIN = document.querySelector('[minus-one-min]');
+const ADD_LOT = document.querySelector('[add-lot]');
+const LOTS = document.querySelector('.auc__lots-wrapper');
+// const LOT_ITEM = document.querySelectorAll('.auc__item')[2];
 
-function timer(seconds) {
+const timer = (seconds) => {
   const NOW = Date.now();
   const THEN = NOW + seconds * 1000;
   display(seconds);
@@ -26,9 +29,9 @@ function timer(seconds) {
     }
     display(SECONDS_LEFT);
   }, 10);
-}
+};
 
-function display(seconds) {
+const display = (seconds) => {
   secondsGlobal = seconds;
 
   const MIN = Math.floor(seconds / 60);
@@ -37,7 +40,18 @@ function display(seconds) {
   MIN < 10 ? MIN_DOM.innerHTML = '0' + MIN : MIN_DOM.innerHTML = MIN;
   SEC < 10 ? SEC_DOM.innerHTML = '0' + SEC : SEC_DOM.innerHTML = SEC;
   // MSEC < 100 ? MSEC_DOM.innerHTML = '' + MSEC : MSEC_DOM.innerHTML = MSEC;
-}
+};
+
+const setTime = (time) => {
+  if (!START.classList.contains('auc__start--stop') || !countdown) {
+    secondsGlobal += time;
+    display(secondsGlobal);
+  } else {
+    secondsGlobal += time;
+    clearInterval(countdown);
+    timer(secondsGlobal);
+  }
+};
 
 const reset = () => {
   secondsGlobal = 0;
@@ -45,6 +59,20 @@ const reset = () => {
   display(0);
   timer(0);
   START.classList.remove('auc__start--stop');
+};
+
+const lotAdd = () => {
+  LOTS.insertAdjacentHTML('beforeend',
+    `<div class="auc__item">
+      <input class="auc__lot" type="text">
+      <input class="auc__total-sum" type="text">
+      <input class="auc__current-sum" type="text">
+      <button class="auc__add-sum">
+      <svg class="auc__icon">
+        <use xlink:href="img/sprite.svg#plus"></use>
+      </svg></button>
+    </div>`
+  );
 };
 
 START.addEventListener('click', () => {
@@ -60,51 +88,22 @@ START.addEventListener('click', () => {
 RESET.addEventListener('click', reset);
 
 PLUS_ONE_MIN.addEventListener('click', () => {
-  if (!START.classList.contains('auc__start--stop') || !countdown) {
-    secondsGlobal += 60;
-    display(secondsGlobal);
-  } else {
-    secondsGlobal += 60;
-    clearInterval(countdown);
-    timer(secondsGlobal);
-  }
+  setTime(60);
 });
 
 PLUS_TWO_MIN.addEventListener('click', () => {
-  if (!START.classList.contains('auc__start--stop') || !countdown) {
-    secondsGlobal += 120;
-    display(secondsGlobal);
-  } else {
-    secondsGlobal += 120;
-    clearInterval(countdown);
-    timer(secondsGlobal);
-  }
+  setTime(120);
 });
-
 
 TEN_MIN.addEventListener('click', () => {
-  if (!START.classList.contains('auc__start--stop') || !countdown) {
-    secondsGlobal = 600;
-    display(secondsGlobal);
-  } else {
-    secondsGlobal = 600;
-    clearInterval(countdown);
-    timer(secondsGlobal);
-  }
+  secondsGlobal = 0;
+  setTime(600);
 });
 
-
 MINUS_ONE_MIN.addEventListener('click', () => {
-  if (secondsGlobal >= 60) {
-    if (!START.classList.contains('auc__start--stop') || !countdown) {
-      secondsGlobal -= 60;
-      display(secondsGlobal);
-    } else {
-      secondsGlobal -= 60;
-      clearInterval(countdown);
-      timer(secondsGlobal);
-    }
-  } else {
-    reset();
-  }
+  secondsGlobal >= 60 ? setTime(-60) : reset();
+});
+
+ADD_LOT.addEventListener('click', () => {
+  lotAdd();
 });
