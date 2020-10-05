@@ -22,7 +22,7 @@
   flex: 1 1;
   flex-direction: column;
 
-  height: calc(100vh - 11rem);
+  height: calc(100vh - 12rem);
   max-height: 100%;
   margin-right: 2rem;
   padding: .5rem 0 0 .5rem;
@@ -120,11 +120,11 @@
   margin-bottom: 1rem;
   padding: .3em .2em;
 
-  &:active {
-    transform: none;
+  // &:active {
+  //   transform: none;
 
-    background-color: lighten($color-primary-dark, 2);
-  }
+  //   background-color: lighten($color-primary-dark, 2);
+  // }
 }
 
 .auc__right {

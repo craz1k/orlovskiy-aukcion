@@ -1,7 +1,7 @@
 @mixin auc-input {
   font-size: 3.5rem;
 
-  max-height: 1.333em;
+  max-height: 1.2em;
   margin-right: 1.5rem;
   padding: 0 .2em;
 
@@ -38,6 +38,9 @@
   }
 
   &:active {
-    transform: scale(.95);
+    transform: translateY(2px);
+    // transform: scale(.95);
+
+    box-shadow: none;
   }
 }

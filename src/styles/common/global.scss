@@ -66,8 +66,7 @@ input[type='button'] {
 }
 
 button {
-  @include outline;
-
+  // @include outline;
   font: inherit;
 
   padding: 0;
