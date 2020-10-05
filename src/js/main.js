@@ -16,7 +16,7 @@ const MINUS_ONE_MIN = document.querySelector('[minus-one-min]');
 function timer(seconds) {
   const NOW = Date.now();
   const THEN = NOW + seconds * 1000;
-  // display(seconds);
+  display(seconds);
 
   countdown = setInterval(() => {
     const SECONDS_LEFT = Math.round((THEN - Date.now()) / 1000);
@@ -25,28 +25,27 @@ function timer(seconds) {
       return;
     }
     display(SECONDS_LEFT);
-  }, 0);
+  }, 10);
 }
 
 function display(seconds) {
+  secondsGlobal = seconds;
+
   const MIN = Math.floor(seconds / 60);
   const SEC = seconds % 60;
   // const MSEC = 1000 - date.getMilliseconds();
-
   MIN < 10 ? MIN_DOM.innerHTML = '0' + MIN : MIN_DOM.innerHTML = MIN;
   SEC < 10 ? SEC_DOM.innerHTML = '0' + SEC : SEC_DOM.innerHTML = SEC;
   // MSEC < 100 ? MSEC_DOM.innerHTML = '' + MSEC : MSEC_DOM.innerHTML = MSEC;
 }
 
 START.addEventListener('click', () => {
-  let buf;
-
-  if (secondsGlobal > 0) {
-    START.classList.toggle('auc__start--stop');
-  }
-
-  if (START.classList.contains('auc__start--stop')) {
+  if (secondsGlobal > 0 && !START.classList.contains('auc__start--stop')) {
+    timer(secondsGlobal);
+    START.classList.add('auc__start--stop');
+  } else if (START.classList.contains('auc__start--stop')) {
     clearInterval(countdown);
+    START.classList.remove('auc__start--stop');
   }
 });
 
@@ -59,27 +58,47 @@ RESET.addEventListener('click', () => {
 });
 
 PLUS_ONE_MIN.addEventListener('click', () => {
-  secondsGlobal += 60;
-  display(secondsGlobal);
-  // clearInterval(countdown);
-  // timer(secondsGlobal);
+  if (!START.classList.contains('auc__start--stop') || !countdown) {
+    secondsGlobal += 60;
+    display(secondsGlobal);
+  } else {
+    secondsGlobal += 60;
+    clearInterval(countdown);
+    timer(secondsGlobal);
+  }
 });
 
 PLUS_TWO_MIN.addEventListener('click', () => {
-  secondsGlobal += 120;
-  display(secondsGlobal);
+  if (!START.classList.contains('auc__start--stop') || !countdown) {
+    secondsGlobal += 120;
+    display(secondsGlobal);
+  } else {
+    secondsGlobal += 120;
+    clearInterval(countdown);
+    timer(secondsGlobal);
+  }
 });
 
 
 TEN_MIN.addEventListener('click', () => {
-  secondsGlobal = 600;
-  display(secondsGlobal);
+  if (!START.classList.contains('auc__start--stop') || !countdown) {
+    secondsGlobal = 600;
+    display(secondsGlobal);
+  } else {
+    secondsGlobal = 600;
+    clearInterval(countdown);
+    timer(secondsGlobal);
+  }
 });
 
 
 MINUS_ONE_MIN.addEventListener('click', () => {
-  if (secondsGlobal > 0) {
+  if (!START.classList.contains('auc__start--stop') || !countdown) {
     secondsGlobal -= 60;
     display(secondsGlobal);
+  } else {
+    secondsGlobal -= 60;
+    clearInterval(countdown);
+    timer(secondsGlobal);
   }
 });
