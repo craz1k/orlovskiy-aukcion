@@ -86,7 +86,7 @@ const addLot = () => {
 
 const sortLots = (arr) => {
   const arrLength = arr.length;
-  if (arr[arrLength - 1] < arr[arrLength - 2]) return;
+  if (arr[arrLength - 1] < arr[arrLength - 2] || arrLength === 1) return;
   arr.sort((a, b) => {
     return b.totalBet - a.totalBet;
   });

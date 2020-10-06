@@ -10,6 +10,10 @@
 }
 
 .auc__inner {
+  @include media-laptop {
+    flex-direction: column-reverse;
+  }
+
   display: flex;
   flex: 0 1;
 
@@ -17,6 +21,10 @@
 }
 
 .auc__left {
+  @include media-laptop {
+    margin-right: 0;
+  }
+
   display: flex;
   overflow-y: auto;
   flex: 1 1;
@@ -29,6 +37,10 @@
 }
 
 .auc__lots-wrapper {
+  @include media-laptop {
+    padding-right: 0;
+  }
+
   padding-right: 1rem;
 }
 
@@ -76,9 +88,26 @@
 .auc__total-sum,
 .auc__current-sum {
   @include auc-input;
+  @include media-tablet-ls {
+    font-size: 2.9rem;
+
+    max-height: 1.5em;
+  }
+  @include media-smartphone-ls {
+    font-size: 2.4rem;
+
+    max-height: 2em;
+  }
+  @include media-smartphone-pt {
+    font-size: 2rem;
+  }
 }
 
 .auc__lot {
+  @include media-smartphone-pt {
+    min-width: 15rem;
+  }
+
   flex: 1 0;
 
   width: 100%;
@@ -88,10 +117,18 @@
 }
 
 .auc__total-sum {
+  @include media-smartphone-pt {
+    max-width: 12rem;
+  }
+
   max-width: 15rem;
 }
 
 .auc__current-sum {
+  @include media-smartphone-pt {
+    max-width: 9rem;
+  }
+
   max-width: 12rem;
 }
 
@@ -115,21 +152,23 @@
 
 .auc__add-lot {
   @include auc-btn;
+  @include media-laptop {
+    max-width: calc(100% - 6rem);
+  }
 
   max-width: calc(100% - 7rem);
   margin-bottom: 1rem;
   padding: .3em .2em;
-
-  // &:active {
-  //   transform: none;
-
-  //   background-color: lighten($color-primary-dark, 2);
-  // }
 }
 
 .auc__right {
   display: flex;
   flex-direction: column;
+
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+  margin-bottom: 3.5rem;
 }
 
 .auc__timer {
