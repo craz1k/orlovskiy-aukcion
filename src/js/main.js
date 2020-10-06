@@ -5,45 +5,45 @@ let id = 0;
 const LOT = {
   id: '',
   name: '',
-  totalSum: 0,
-  curSum: 0
+  totalBet: 0,
+  lastBet: 0
 };
 
-let lotArray = [];
+const LOT_ARRAY = [];
 
 // const TIMER_DOM = document.querySelector('[timer]');
 const MIN_DOM = document.querySelector('[minutes]');
 const SEC_DOM = document.querySelector('[seconds]');
 const MSEC_DOM = document.querySelector('[mseconds]');
 
-const START_STOP = document.querySelector('[start]');
-const RESET = document.querySelector('[reset]');
-const PLUS_ONE_MIN = document.querySelector('[plus-one-min]');
-const PLUS_TWO_MIN = document.querySelector('[plus-two-min]');
-const TEN_MIN = document.querySelector('[ten-min]');
-const MINUS_ONE_MIN = document.querySelector('[minus-one-min]');
-const ADD_LOT = document.querySelector('[add-lot]');
-const LOTS = document.querySelector('.auc__lots-wrapper');
+const START_STOP_BTN = document.querySelector('[start]');
+const RESET_BTN = document.querySelector('[reset]');
+const PLUS_ONE_MIN_BTN = document.querySelector('[plus-one-min]');
+const PLUS_TWO_MIN_BTN = document.querySelector('[plus-two-min]');
+const EQUAL_TEN_MIN_BTN = document.querySelector('[ten-min]');
+const MINUS_ONE_MIN_BTN = document.querySelector('[minus-one-min]');
+const ADD_LOT_BTN = document.querySelector('[add-lot]');
+const LOTS_DOM = document.querySelector('.auc__lots-wrapper');
+let lotsItemDOM = document.querySelectorAll('.auc__item');
 
-const timer = (seconds) => {
+const startTimer = (seconds) => {
   const NOW = Date.now();
   const THEN = NOW + seconds * 1000;
-  display(seconds);
+  displayTimer(seconds);
 
   countdown = setInterval(() => {
     const SECONDS_LEFT = Math.round((THEN - Date.now()) / 1000);
     if (SECONDS_LEFT < 0) {
       clearInterval(countdown);
-      START_STOP.classList.remove('auc__start--stop');
+      START_STOP_BTN.classList.remove('auc__start--stop');
       return;
     }
-    display(SECONDS_LEFT);
+    displayTimer(SECONDS_LEFT);
   }, 10);
 };
 
-const display = (seconds) => {
+const displayTimer = (seconds) => {
   secondsGlobal = seconds;
-
   const MIN = Math.floor(seconds / 60);
   const SEC = seconds % 60;
   // const MSEC = 1000 - date.getMilliseconds();
@@ -52,98 +52,134 @@ const display = (seconds) => {
   // MSEC < 100 ? MSEC_DOM.innerHTML = '' + MSEC : MSEC_DOM.innerHTML = MSEC;
 };
 
-const setTime = (time) => {
-  if (!START_STOP.classList.contains('auc__start--stop') || !countdown) {
+const setTimer = (time) => {
+  if (!START_STOP_BTN.classList.contains('auc__start--stop') || !countdown) {
     secondsGlobal += time;
-    display(secondsGlobal);
+    displayTimer(secondsGlobal);
   } else {
     secondsGlobal += time;
     clearInterval(countdown);
-    timer(secondsGlobal);
+    startTimer(secondsGlobal);
   }
 };
 
-const reset = () => {
-  START_STOP.classList.remove('auc__start--stop');
+const resetTimer = () => {
+  START_STOP_BTN.classList.remove('auc__start--stop');
   secondsGlobal = 0;
   clearInterval(countdown);
-  display(secondsGlobal);
+  displayTimer(secondsGlobal);
 };
 
-const lotAdd = () => {
-  LOTS.insertAdjacentHTML('beforeend',
+const addLot = () => {
+  LOTS_DOM.insertAdjacentHTML('beforeend',
     `<div class="auc__item"><input class="auc__lot" type="text"><input class="auc__total-sum" type="text"
-    pattern="[0-9]{10}" oninput="this.value=this.value.replace(/[^0-9]/g,'');"><input class="auc__current-sum"
-    type="text" pattern="[0-9]{10}" oninput="this.value=this.value.replace(/[^0-9]/g,'');"><button
+    oninput="this.value=this.value.replace(/[^0-9]/g,'');"><input class="auc__current-sum"
+    type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');"><button
     class="auc__add-sum" add-sum><svg class="auc__icon">
       <use xlink:href="img/sprite.svg#plus"></use>
     </svg></button></div>`
   );
-  nodeAdding();
+  eventListenerAdding();
 };
 
-START_STOP.addEventListener('click', () => {
-  if (secondsGlobal > 0 && !START_STOP.classList.contains('auc__start--stop')) {
-    timer(secondsGlobal);
-    START_STOP.classList.add('auc__start--stop');
-  } else if (START_STOP.classList.contains('auc__start--stop')) {
+const sortLots = (arr) => {
+  arr.sort((a, b) => {
+    return b.totalBet - a.totalBet;
+  });
+};
+
+const displayLots = (arr) => {
+  for (let i = 0; i < lotsItemDOM.length; i++) {
+    lotsItemDOM[i].childNodes[0].value = '';
+    lotsItemDOM[i].childNodes[1].value = '';
+    lotsItemDOM[i].childNodes[2].value = '';
+    lotsItemDOM[i].childNodes[3].removeAttribute('id');
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    lotsItemDOM[i].childNodes[0].value = arr[i].name;
+    lotsItemDOM[i].childNodes[1].value = arr[i].totalBet;
+    lotsItemDOM[i].childNodes[3].setAttribute('id', arr[i].id);
+  }
+};
+
+START_STOP_BTN.addEventListener('click', () => {
+  if (secondsGlobal > 0 && !START_STOP_BTN.classList.contains('auc__start--stop')) {
+    startTimer(secondsGlobal);
+    START_STOP_BTN.classList.add('auc__start--stop');
+  } else if (START_STOP_BTN.classList.contains('auc__start--stop')) {
     clearInterval(countdown);
-    START_STOP.classList.remove('auc__start--stop');
+    START_STOP_BTN.classList.remove('auc__start--stop');
   }
 });
 
-RESET.addEventListener('click', reset);
+RESET_BTN.addEventListener('click', resetTimer);
 
-PLUS_ONE_MIN.addEventListener('click', () => {
-  setTime(60);
+PLUS_ONE_MIN_BTN.addEventListener('click', () => {
+  setTimer(60);
 });
 
-PLUS_TWO_MIN.addEventListener('click', () => {
-  setTime(120);
+PLUS_TWO_MIN_BTN.addEventListener('click', () => {
+  setTimer(120);
 });
 
-TEN_MIN.addEventListener('click', () => {
+EQUAL_TEN_MIN_BTN.addEventListener('click', () => {
   secondsGlobal = 0;
-  setTime(600);
+  setTimer(600);
 });
 
-MINUS_ONE_MIN.addEventListener('click', () => {
-  secondsGlobal >= 60 ? setTime(-60) : reset();
+MINUS_ONE_MIN_BTN.addEventListener('click', () => {
+  secondsGlobal >= 60 ? setTimer(-60) : resetTimer();
 });
 
-ADD_LOT.addEventListener('click', lotAdd);
+ADD_LOT_BTN.addEventListener('click', addLot);
 
-const nodeAdding = () => document.querySelectorAll('[add-sum]').forEach((btn) => {
+const eventListenerAdding = () => document.querySelectorAll('[add-sum]').forEach((btn) => {
+  lotsItemDOM = document.querySelectorAll('.auc__item');
+
   btn.addEventListener('click', () => {
-    const LOT_NAME = btn.parentElement.firstChild;
-    const LOT_CUR_SUM = btn.previousSibling;
-    const LOT_TOTAL_SUM = btn.parentElement.firstChild.nextSibling;
+    const LOT_NAME_DOM = btn.parentElement.firstChild;
+    const LOT_CUR_SUM_DOM = btn.previousSibling;
+    const LOT_TOTAL_SUM_DOM = btn.parentElement.firstChild.nextSibling;
 
-    if (!isNaN(parseFloat(LOT_CUR_SUM.value))) {
+    if (!isNaN(parseFloat(LOT_CUR_SUM_DOM.value))) {
       if (!btn.hasAttribute('id')) {
         const LOT_CLONE = {};
         Object.assign(LOT_CLONE, LOT);
 
-        LOT_CLONE.id = id;
-        LOT_CLONE.name = LOT_NAME.value;
-        LOT_CLONE.totalSum += parseFloat(LOT_CUR_SUM.value);
-        LOT_CLONE.curSum = parseFloat(LOT_CUR_SUM.value);
+        LOT_CLONE.id = id++;
+        LOT_CLONE.name = LOT_NAME_DOM.value;
+        if (isNaN(parseFloat(LOT_TOTAL_SUM_DOM.value))) {
+          LOT_CLONE.totalBet += parseFloat(LOT_CUR_SUM_DOM.value);
+        } else {
+          LOT_CLONE.totalBet = parseFloat(LOT_CUR_SUM_DOM.value) + parseFloat(LOT_TOTAL_SUM_DOM.value);
+        }
+        LOT_CLONE.lastBet = parseFloat(LOT_CUR_SUM_DOM.value);
 
-        LOT_CUR_SUM.value = '';
-        LOT_TOTAL_SUM.value = LOT_CLONE.totalSum;
-        btn.setAttribute('id', id++);
+        LOT_CUR_SUM_DOM.value = '';
+        LOT_TOTAL_SUM_DOM.value = LOT_CLONE.totalBet;
 
-        lotArray.push(LOT_CLONE);
-        console.log(lotArray);
+        LOT_ARRAY.push(LOT_CLONE);
+        sortLots(LOT_ARRAY);
+        displayLots(LOT_ARRAY);
+        console.log(LOT_ARRAY);
       } else {
-        const curLot = lotArray.find((el) => el.id === parseInt(btn.getAttribute('id'), 10));
-        curLot.name = LOT_NAME.value;
-        curLot.curSum = parseFloat(LOT_CUR_SUM.value);
-        curLot.totalSum += parseFloat(LOT_CUR_SUM.value);
-        LOT_CUR_SUM.value = '';
-        LOT_TOTAL_SUM.value = curLot.totalSum;
-        console.log(lotArray);
+        const curLot = LOT_ARRAY.find((el) => el.id === parseInt(btn.getAttribute('id'), 10));
+        curLot.name = LOT_NAME_DOM.value;
+        curLot.lastBet = parseFloat(LOT_CUR_SUM_DOM.value);
+        if (isNaN(parseFloat(LOT_TOTAL_SUM_DOM.value))) {
+          curLot.totalBet += parseFloat(LOT_CUR_SUM_DOM.value);
+        } else {
+          curLot.totalBet = parseFloat(LOT_CUR_SUM_DOM.value) + parseFloat(LOT_TOTAL_SUM_DOM.value);
+        }
+        LOT_CUR_SUM_DOM.value = '';
+        LOT_TOTAL_SUM_DOM.value = curLot.totalBet;
+        sortLots(LOT_ARRAY);
+        displayLots(LOT_ARRAY);
+        console.log(LOT_ARRAY);
       }
     }
   });
 });
+
+eventListenerAdding();
