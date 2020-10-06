@@ -78,7 +78,7 @@ button {
 }
 
 html {
-  @include media-tablet-pt {
+  @include media-laptop {
     font-size: 50.5%;
   }
   @include media-smartphone-ls {
