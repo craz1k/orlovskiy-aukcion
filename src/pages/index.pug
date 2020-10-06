@@ -9,8 +9,12 @@ block content
           +auc-item("auc__item--second")
           +auc-item
           +auc-item
-        button.auc__add-lot(add-lot): +icon("auc__icon", "plus")
+        button.auc__add-lot(add-lot title="Добавить лот"): +icon("auc__icon", "plus")
       .auc__right
+        p.auc__total
+          |Банк:
+          |
+          span(total) 0
         .auc__timer-wrapper
           .auc__timer
             button.auc__start(start)
