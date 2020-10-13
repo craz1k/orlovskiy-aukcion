@@ -18,7 +18,7 @@
   flex: 0 1;
 
   height: calc(100vh - 5rem);
-  padding: 4rem .5rem 0 0;
+  padding: 2rem .5rem 0 0;
 }
 
 .auc__left {
@@ -36,12 +36,51 @@
   padding: .5rem 0 0 .5rem;
 }
 
+.auc__controllers {
+  @include media-laptop {
+    max-width: calc(100% - 6rem);
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  max-width: calc(100% - 7rem);
+  margin-bottom: 1.5rem;
+}
+
+.auc__edit-wrapper {
+  display: flex;
+}
+
+.auc__edit {
+  @include auc-btn;
+
+  padding: .3em;
+
+  &:not(:last-child) {
+    margin-right: 1rem;
+  }
+}
+
+.auc__clear {
+  @include auc-btn;
+
+  padding: .3em;
+
+  background-color: $color-reset;
+  box-shadow: 0 5px darken($color-reset, 10);
+
+  &:hover {
+    background-color: darken($color-reset, 7);
+  }
+}
+
 .auc__lots-wrapper {
   @include media-laptop {
     padding-right: 0;
   }
 
-  padding-top: 1rem;
   padding-right: 1rem;
 }
 
@@ -149,6 +188,10 @@
   height: 2rem;
 
   fill: $color-primary-light;
+
+  &--revert {
+    transform: scale(-1, 1);
+  }
 }
 
 .auc__add-lot {
@@ -160,15 +203,6 @@
   max-width: calc(100% - 7rem);
   margin-bottom: 1rem;
   padding: .3em .2em;
-}
-
-.auc__clear {
-  @include auc-btn;
-
-  position: relative;
-  z-index: 100;
-
-  align-self: flex-start;
 }
 
 .auc__right {

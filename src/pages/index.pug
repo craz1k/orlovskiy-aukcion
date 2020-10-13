@@ -4,7 +4,12 @@ block content
   main.auc
     .auc__inner
       .auc__left
-        button.auc__clear(clear title="Очистить хранилище"): +icon("auc__icon", "reset")
+        .auc__controllers
+          button.auc__clear(title="Очистить хранилище" clear): +icon("auc__icon", "reset")
+          .auc__edit-wrapper
+            button.auc__edit(title="Вернуться назад" auc-back): +icon("auc__icon auc__icon--revert", "arrow")
+            button.auc__edit(title="Вернуться вперёд" auc-forward): +icon("auc__icon", "arrow")
+
         .auc__lots-wrapper
           +auc-item("auc__item--first")
           +auc-item("auc__item--second")

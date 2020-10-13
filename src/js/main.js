@@ -7,6 +7,9 @@ let id = 0;
 
 let lotArray = [];
 
+const LOG_ARRAY = [];
+let logArrayId;
+
 const MIN_DOM = document.querySelector('[minutes]');
 const SEC_DOM = document.querySelector('[seconds]');
 // const MSEC_DOM = document.querySelector('[mseconds]');
@@ -17,6 +20,8 @@ const PLUS_ONE_MIN_BTN = document.querySelector('[plus-one-min]');
 const PLUS_TWO_MIN_BTN = document.querySelector('[plus-two-min]');
 const EQUAL_TEN_MIN_BTN = document.querySelector('[ten-min]');
 const MINUS_ONE_MIN_BTN = document.querySelector('[minus-one-min]');
+const BACK_BTN = document.querySelector('[auc-back]');
+const FORWARD_BTN = document.querySelector('[auc-forward]');
 const ADD_LOT_BTN = document.querySelector('[add-lot]');
 const CLEAR_LOTS_BTN = document.querySelector('[clear]');
 const LOTS_DOM = document.querySelector('.auc__lots-wrapper');
@@ -161,6 +166,31 @@ const displayLocalStorage = () => {
   }
 };
 
+const setLog = (arr) => {
+  const NEW_ARR = arr.slice();
+  LOG_ARRAY.push(NEW_ARR);
+  logArrayId = LOG_ARRAY.length - 1;
+  console.log(LOG_ARRAY);
+};
+
+const logBack = () => {
+  if (logArrayId > 0) {
+    lotArray = LOG_ARRAY[--logArrayId].slice();
+    console.log(lotArray);
+    setLocalStorage(lotArray);
+    displayLots(lotArray);
+  }
+};
+
+const logForward = () => {
+  if (logArrayId < LOG_ARRAY.length - 1) {
+    lotArray = LOG_ARRAY[++logArrayId].slice();
+    console.log(lotArray);
+    setLocalStorage(lotArray);
+    displayLots(lotArray);
+  }
+};
+
 START_STOP_BTN.addEventListener('click', () => {
   if (secondsGlobal > 0 && !START_STOP_BTN.classList.contains('auc__start--stop')) {
     startTimer(secondsGlobal);
@@ -197,6 +227,10 @@ CLEAR_LOTS_BTN.addEventListener('click', () => {
   window.location.reload();
 });
 
+BACK_BTN.addEventListener('click', logBack);
+
+FORWARD_BTN.addEventListener('click', logForward);
+
 const eventListenerAdding = () => document.querySelectorAll('[add-sum]').forEach((btn) => {
   btn.addEventListener('click', () => {
     const LOT_NAME_DOM = btn.parentElement.firstChild;
@@ -220,10 +254,12 @@ const eventListenerAdding = () => document.querySelectorAll('[add-sum]').forEach
       }
       sortLots(lotArray);
       setLocalStorage(lotArray);
+      setLog(lotArray);
       displayLots(lotArray);
     }
   });
 });
 
+setLog(lotArray);
 displayLocalStorage();
 eventListenerAdding();
