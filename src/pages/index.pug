@@ -4,6 +4,7 @@ block content
   main.auc
     .auc__inner
       .auc__left
+        button.auc__clear(clear title="Очистить хранилище"): +icon("auc__icon", "reset")
         .auc__lots-wrapper
           +auc-item("auc__item--first")
           +auc-item("auc__item--second")

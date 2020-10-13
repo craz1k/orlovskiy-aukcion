@@ -41,6 +41,7 @@
     padding-right: 0;
   }
 
+  padding-top: 1rem;
   padding-right: 1rem;
 }
 
@@ -159,6 +160,15 @@
   max-width: calc(100% - 7rem);
   margin-bottom: 1rem;
   padding: .3em .2em;
+}
+
+.auc__clear {
+  @include auc-btn;
+
+  position: relative;
+  z-index: 100;
+
+  align-self: flex-start;
 }
 
 .auc__right {

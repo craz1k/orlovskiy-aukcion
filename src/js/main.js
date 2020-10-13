@@ -5,7 +5,7 @@ let countdown;
 let secondsGlobal = 600;
 let id = 0;
 
-const LOT_ARRAY = [];
+let lotArray = [];
 
 const MIN_DOM = document.querySelector('[minutes]');
 const SEC_DOM = document.querySelector('[seconds]');
@@ -18,6 +18,7 @@ const PLUS_TWO_MIN_BTN = document.querySelector('[plus-two-min]');
 const EQUAL_TEN_MIN_BTN = document.querySelector('[ten-min]');
 const MINUS_ONE_MIN_BTN = document.querySelector('[minus-one-min]');
 const ADD_LOT_BTN = document.querySelector('[add-lot]');
+const CLEAR_LOTS_BTN = document.querySelector('[clear]');
 const LOTS_DOM = document.querySelector('.auc__lots-wrapper');
 const TOTAL_DOM = document.querySelector('[total]');
 
@@ -39,6 +40,7 @@ const startTimer = (seconds) => {
 
 const displayTimer = (seconds) => {
   secondsGlobal = seconds;
+  window.localStorage.setItem('timer', seconds);
   const MIN = Math.floor(seconds / 60);
   const SEC = seconds % 60;
   MIN < 10 ? MIN_DOM.innerHTML = '0' + MIN : MIN_DOM.innerHTML = MIN;
@@ -46,7 +48,7 @@ const displayTimer = (seconds) => {
   // MSEC < 100 ? MSEC_DOM.innerHTML = '' + MSEC : MSEC_DOM.innerHTML = MSEC;
 };
 
-const setTimer = (time) => {
+const setTimer = (time = 0) => {
   if (!START_STOP_BTN.classList.contains('auc__start--stop') || !countdown) {
     secondsGlobal += time;
     displayTimer(secondsGlobal);
@@ -85,21 +87,29 @@ const sortLots = (arr) => {
 };
 
 const displayLots = (arr) => {
-  const LOTS_ITEM_DOM = document.querySelectorAll('.auc__item');
   const ARR_LENGTH = arr.length;
-  const LOTS_ITEM_DOM_LENGTH = LOTS_ITEM_DOM.length;
+  let lotsItemDOM = document.querySelectorAll('.auc__item');
+  let lotsItemDOMLength = lotsItemDOM.length;
 
-  for (let i = 0; i < LOTS_ITEM_DOM_LENGTH; i++) {
-    LOTS_ITEM_DOM[i].childNodes[0].value = '';
-    LOTS_ITEM_DOM[i].childNodes[1].value = '';
-    LOTS_ITEM_DOM[i].childNodes[2].value = '';
-    LOTS_ITEM_DOM[i].childNodes[3].removeAttribute('id');
+  if (ARR_LENGTH > lotsItemDOMLength) {
+    for (let i = 0; i < ARR_LENGTH - lotsItemDOMLength; i++) {
+      addLot();
+    }
+    lotsItemDOM = document.querySelectorAll('.auc__item');
+    lotsItemDOMLength = lotsItemDOM.length;
+  }
+
+  for (let i = 0; i < lotsItemDOMLength; i++) {
+    lotsItemDOM[i].childNodes[0].value = '';
+    lotsItemDOM[i].childNodes[1].value = '';
+    lotsItemDOM[i].childNodes[2].value = '';
+    lotsItemDOM[i].childNodes[3].removeAttribute('id');
   }
 
   for (let i = 0; i < ARR_LENGTH; i++) {
-    LOTS_ITEM_DOM[i].childNodes[0].value = arr[i].name;
-    LOTS_ITEM_DOM[i].childNodes[1].value = arr[i].totalBet;
-    LOTS_ITEM_DOM[i].childNodes[3].setAttribute('id', arr[i].id);
+    lotsItemDOM[i].childNodes[0].value = arr[i].name;
+    lotsItemDOM[i].childNodes[1].value = arr[i].totalBet;
+    lotsItemDOM[i].childNodes[3].setAttribute('id', arr[i].id);
   }
 
   TOTAL_DOM.innerText = '';
@@ -122,17 +132,32 @@ const lotArrayFill = (name, totalBet, lastBet) => {
     LOT.totalBet = parseFloat(lastBet) + parseFloat(totalBet);
   }
   LOT.lastBet = parseFloat(lastBet);
-  LOT_ARRAY.push(LOT);
+  lotArray.push(LOT);
 };
 
 const lotArrayEdit = (idEd, name, totalBet, lastBet) => {
-  const CURRENT_LOT = LOT_ARRAY.find((el) => el.id === idEd);
+  const CURRENT_LOT = lotArray.find((el) => el.id === idEd);
   CURRENT_LOT.name = name;
   CURRENT_LOT.lastBet = parseFloat(lastBet);
   if (isNaN(parseFloat(totalBet))) {
     CURRENT_LOT.totalBet += parseFloat(lastBet);
   } else {
     CURRENT_LOT.totalBet = parseFloat(lastBet) + parseFloat(totalBet);
+  }
+};
+
+const setLocalStorage = (arr) => {
+  window.localStorage.setItem('lots', JSON.stringify(arr));
+  lotArray = JSON.parse(window.localStorage.getItem('lots'));
+};
+
+const displayLocalStorage = () => {
+  if (window.localStorage.getItem('lots') !== null) {
+    lotArray = JSON.parse(window.localStorage.getItem('lots'));
+    displayLots(lotArray);
+
+    secondsGlobal = JSON.parse(window.localStorage.getItem('timer'));
+    setTimer();
   }
 };
 
@@ -167,6 +192,11 @@ MINUS_ONE_MIN_BTN.addEventListener('click', () => {
 
 ADD_LOT_BTN.addEventListener('click', addLot);
 
+CLEAR_LOTS_BTN.addEventListener('click', () => {
+  window.localStorage.clear();
+  window.location.reload();
+});
+
 const eventListenerAdding = () => document.querySelectorAll('[add-sum]').forEach((btn) => {
   btn.addEventListener('click', () => {
     const LOT_NAME_DOM = btn.parentElement.firstChild;
@@ -188,10 +218,12 @@ const eventListenerAdding = () => document.querySelectorAll('[add-sum]').forEach
           LOT_CUR_SUM_DOM.value
         );
       }
-      sortLots(LOT_ARRAY);
-      displayLots(LOT_ARRAY);
+      sortLots(lotArray);
+      setLocalStorage(lotArray);
+      displayLots(lotArray);
     }
   });
 });
 
+displayLocalStorage();
 eventListenerAdding();

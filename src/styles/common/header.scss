@@ -17,9 +17,11 @@
   text-align: center;
   text-transform: uppercase;
 
-  color: $color-primary-light;
-
   span {
     color: #caca0b;
+  }
+
+  a {
+    color: $color-primary-light;
   }
 }
