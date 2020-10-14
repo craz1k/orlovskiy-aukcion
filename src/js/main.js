@@ -297,5 +297,5 @@ const eventListenerAdding = () => document.querySelectorAll('[add-sum]').forEach
 
 setLog(lotArray);
 readLocalStorage();
+eventListenerAdding();
 checkLogBtnDisabling();
-
