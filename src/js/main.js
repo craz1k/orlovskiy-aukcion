@@ -3,11 +3,11 @@
 /* eslint-disable indent */
 let countdown;
 let secondsGlobal = 600;
-let id = 0;
+let lotsId = 0;
 
 let lotArray = [];
 
-const LOG_ARRAY = [];
+let logArray = [];
 let logArrayId;
 
 const MIN_DOM = document.querySelector('[minutes]');
@@ -117,6 +117,8 @@ const displayLots = (arr) => {
 
   TOTAL_DOM.innerText = '';
   TOTAL_DOM.innerText = arr.reduce((acc, el) => acc + parseFloat(el.totalBet), 0);
+
+  checkLogBtnDisabling();
 };
 
 const lotArrayFill = (name, totalBet, lastBet) => {
@@ -127,7 +129,7 @@ const lotArrayFill = (name, totalBet, lastBet) => {
     lastBet: 0
   };
 
-  LOT.id = id++;
+  LOT.id = lotsId++;
   LOT.name = name;
   if (isNaN(parseFloat(totalBet))) {
     LOT.totalBet += parseFloat(lastBet);
@@ -149,43 +151,78 @@ const lotArrayEdit = (idEd, name, totalBet, lastBet) => {
   }
 };
 
-const setLocalStorage = (arr) => {
-  window.localStorage.setItem('lots', JSON.stringify(arr));
+const setLocalStorage = (lotArr, logArr) => {
+  window.localStorage.setItem('lots', JSON.stringify(lotArr));
   lotArray = JSON.parse(window.localStorage.getItem('lots'));
+
+  window.localStorage.setItem('logs', JSON.stringify(logArr));
+  logArray = JSON.parse(window.localStorage.getItem('logs'));
+  window.localStorage.setItem('logsId', JSON.stringify(logArrayId));
+  logArrayId = JSON.parse(window.localStorage.getItem('logsId'));
+
+  window.localStorage.setItem('lotsId', JSON.stringify(lotsId));
+  lotsId = JSON.parse(window.localStorage.getItem('lotsId'));
 };
 
-const displayLocalStorage = () => {
+const readLocalStorage = () => {
   if (window.localStorage.getItem('lots') !== null) {
     lotArray = JSON.parse(window.localStorage.getItem('lots'));
-    displayLots(lotArray);
+
+    logArray = JSON.parse(window.localStorage.getItem('logs'));
+    logArrayId = JSON.parse(window.localStorage.getItem('logsId'));
+    console.log(logArray);
+
+    lotsId = JSON.parse(window.localStorage.getItem('lotsId'));
 
     secondsGlobal = JSON.parse(window.localStorage.getItem('timer'));
     secondsGlobal > 0 ? setTimer() : setTimer(600);
+
+    displayLots(lotArray);
   }
 };
 
 const setLog = (arr) => {
   const NEW_ARR = arr.slice();
-  LOG_ARRAY.push(NEW_ARR);
-  logArrayId = LOG_ARRAY.length - 1;
-  console.log(LOG_ARRAY);
+  logArray.push(NEW_ARR);
+  logArrayId = logArray.length - 1;
+  console.log(logArray);
 };
 
 const logBack = () => {
   if (logArrayId > 0) {
-    lotArray = LOG_ARRAY[--logArrayId].slice();
+    lotArray = logArray[--logArrayId].slice();
     console.log(lotArray);
-    setLocalStorage(lotArray);
+    setLocalStorage(lotArray, logArray);
     displayLots(lotArray);
   }
 };
 
 const logForward = () => {
-  if (logArrayId < LOG_ARRAY.length - 1) {
-    lotArray = LOG_ARRAY[++logArrayId].slice();
+  if (logArrayId < logArray.length - 1) {
+    lotArray = logArray[++logArrayId].slice();
     console.log(lotArray);
-    setLocalStorage(lotArray);
+    setLocalStorage(lotArray, logArray);
     displayLots(lotArray);
+  }
+};
+
+const checkLogBtnDisabling = () => {
+  const LOG_ARRAY_LENGTH = logArray.length;
+
+  if (LOG_ARRAY_LENGTH > 1) {
+    if (logArrayId === 0) {
+      FORWARD_BTN.classList.remove('auc__edit--disabled');
+      BACK_BTN.classList.add('auc__edit--disabled');
+    } else if (logArrayId === LOG_ARRAY_LENGTH - 1) {
+      FORWARD_BTN.classList.add('auc__edit--disabled');
+      BACK_BTN.classList.remove('auc__edit--disabled');
+    } else {
+      FORWARD_BTN.classList.remove('auc__edit--disabled');
+      BACK_BTN.classList.remove('auc__edit--disabled');
+    }
+  } else {
+    FORWARD_BTN.classList.add('auc__edit--disabled');
+    BACK_BTN.classList.add('auc__edit--disabled');
   }
 };
 
@@ -251,13 +288,14 @@ const eventListenerAdding = () => document.querySelectorAll('[add-sum]').forEach
         );
       }
       sortLots(lotArray);
-      setLocalStorage(lotArray);
       setLog(lotArray);
+      setLocalStorage(lotArray, logArray);
       displayLots(lotArray);
     }
   });
 });
 
 setLog(lotArray);
-displayLocalStorage();
-eventListenerAdding();
+readLocalStorage();
+checkLogBtnDisabling();
+

@@ -61,6 +61,27 @@
   &:not(:last-child) {
     margin-right: 1rem;
   }
+
+  &--disabled {
+    cursor: not-allowed;
+
+    background-color: darken($color-primary-light, 50);
+    box-shadow: 0 5px darken($color-primary-light, 80);
+
+    &:active {
+      transform: none;
+
+      box-shadow: 0 5px darken($color-primary-light, 80);
+    }
+
+    &:hover {
+      background-color: darken($color-primary-light, 50);
+    }
+
+    .auc__icon {
+      fill: darken($color-primary-light, 80);
+    }
+  }
 }
 
 .auc__clear {
