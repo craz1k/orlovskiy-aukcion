@@ -84,8 +84,6 @@ const addLot = () => {
 };
 
 const sortLots = (arr) => {
-  const ARR_LENGTH = arr.length;
-  if (ARR_LENGTH === 1 || arr[ARR_LENGTH - 1].totalBet < arr[ARR_LENGTH - 2].totalBet) return;
   arr.sort((a, b) => {
     return b.totalBet - a.totalBet;
   });
@@ -162,7 +160,7 @@ const displayLocalStorage = () => {
     displayLots(lotArray);
 
     secondsGlobal = JSON.parse(window.localStorage.getItem('timer'));
-    setTimer();
+    secondsGlobal > 0 ? setTimer() : setTimer(600);
   }
 };
 
